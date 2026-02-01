@@ -1,171 +1,171 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Normal / Skew-Normal Distribution Visualizer</title>
-  <style>
-    :root {
-      --bg: #0b0f17;
-      --panel: #121a28;
-      --text: #e7eefc;
-      --muted: #a8b3c7;
-      --grid: rgba(255,255,255,0.08);
-      --accent: #7aa2ff;
-      --accent2: #7dffb2;
-      --warn: #ffcc66;
-      --stroke: rgba(255,255,255,0.18);
-      --radius: 16px;
-      --pad: 14px;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-    }
-    body {
-      margin: 0;
-      background: radial-gradient(1200px 800px at 20% 10%, rgba(122,162,255,0.20), transparent 60%),
-                  radial-gradient(900px 700px at 80% 20%, rgba(125,255,178,0.12), transparent 55%),
-                  var(--bg);
-      color: var(--text);
-    }
-    .wrap {
-      max-width: 1100px;
-      margin: 18px auto;
-      padding: 0 14px 24px;
-      display: grid;
-      grid-template-columns: 360px 1fr;
-      gap: 14px;
-    }
-    @media (max-width: 920px) {
-      .wrap { grid-template-columns: 1fr; }
-    }
-    .card {
-      background: color-mix(in srgb, var(--panel) 92%, black 8%);
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: var(--radius);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-      overflow: hidden;
-    }
-    .card h2 {
-      margin: 0;
-      padding: 14px 16px 10px;
-      font-size: 16px;
-      letter-spacing: 0.2px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-    .controls {
-      padding: 14px 16px 16px;
-      display: grid;
-      gap: 12px;
-    }
-    .row {
-      display: grid;
-      grid-template-columns: 1fr 120px;
-      gap: 10px;
-      align-items: center;
-    }
-    .row label {
-      font-size: 13px;
-      color: var(--muted);
-    }
-    input[type="number"]{
-      width: 100%;
-      padding: 8px 10px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.16);
-      background: rgba(0,0,0,0.20);
-      color: var(--text);
-      outline: none;
-    }
-    input[type="number"]:focus{
-      border-color: rgba(122,162,255,0.55);
-      box-shadow: 0 0 0 3px rgba(122,162,255,0.15);
-    }
-    .sliderline{
-      display: grid;
-      grid-template-columns: 1fr 70px;
-      gap: 10px;
-      align-items: center;
-    }
-    input[type="range"]{
-      width: 100%;
-      accent-color: var(--accent);
-    }
-    .pill {
-      font-variant-numeric: tabular-nums;
-      text-align: right;
-      color: var(--text);
-      opacity: 0.9;
-      font-size: 13px;
-    }
-    .toggles {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 4px;
-    }
-    .toggle {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(0,0,0,0.18);
-      user-select: none;
-    }
-    .toggle input { transform: scale(1.05); }
-    .toggle span { font-size: 13px; color: var(--muted); }
-    .info {
-      margin-top: 10px;
-      padding: 12px 12px;
-      border-radius: 12px;
-      border: 1px dashed rgba(255,255,255,0.18);
-      background: rgba(0,0,0,0.18);
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.35;
-    }
-    .info b { color: var(--text); font-weight: 600; }
-    .plot {
-      padding: 0;
-      display: grid;
-      grid-template-rows: auto 1fr;
-    }
-    .plothead{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding: 14px 16px 10px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .plothead .small {
-      color: var(--muted);
-      font-size: 13px;
-    }
-    canvas {
-      width: 100%;
-      height: 520px;
-      display:block;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));
-    }
-    .footnote{
-      padding: 10px 16px 14px;
-      color: rgba(231,238,252,0.70);
-      font-size: 12px;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-    .warn {
-      color: var(--warn);
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Normal / Skew-Normal Visualizer (x, z, p + tail shading)</title>
+<style>
+  :root{
+    --bg:#0b1220;
+    --panel:#101a2c;
+    --text:#e7eeff;
+    --muted:rgba(231,238,255,0.75);
+    --radius:18px;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background: radial-gradient(1200px 800px at 20% 0%, #152645 0%, var(--bg) 55%);
+    color:var(--text);
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  }
+  .wrap{
+    max-width: 1400px;
+    margin: 18px auto;
+    padding: 0 14px 24px;
+
+    display:grid;
+    grid-template-columns: minmax(320px, 380px) minmax(0, 1fr); /* critical */
+    gap:16px;
+    align-items:start;
+  }
+  .wrap > .card{ min-width:0; } /* critical */
+
+  .card{
+    background: color-mix(in srgb, var(--panel) 92%, black 8%);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: var(--radius);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    overflow: hidden;
+  }
+  .card h2{
+    margin:0;
+    padding:14px 16px 10px;
+    font-size:16px;
+    letter-spacing:0.2px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .controls{ padding: 14px 16px 8px; display:flex; flex-direction:column; gap:12px; }
+  .row{
+    display:grid;
+    grid-template-columns: 1fr minmax(160px, 210px);
+    gap:10px;
+    align-items:center;
+  }
+  .row label{
+    font-size:13px;
+    color:var(--muted);
+    min-width:0;
+    overflow-wrap:anywhere;
+  }
+  .row input, .row select{
+    width:100%;
+    min-width:0;
+    padding:8px 10px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,0.16);
+    background: rgba(0,0,0,0.20);
+    color:var(--text);
+    outline:none;
+  }
+
+  .sliderline{
+    display:grid;
+    grid-template-columns: 1fr auto;
+    gap:10px;
+    align-items:center;
+  }
+  input[type="range"]{ width:100%; min-width:0; }
+  .pill{
+    padding:6px 10px;
+    border-radius: 999px;
+    border:1px solid rgba(255,255,255,0.12);
+    background: rgba(0,0,0,0.20);
+    color:var(--text);
+    font-variant-numeric: tabular-nums;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .toggles{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 14px;
+    padding: 6px 16px 14px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .toggles label{
+    font-size:12.5px;
+    color:var(--muted);
+    display:flex;
+    align-items:center;
+    gap:8px;
+    user-select:none;
+  }
+
+  .info{
+    padding: 12px 16px 14px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .info div{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    font-size:13px;
+  }
+  .info b{ font-weight:650; color: rgba(231,238,255,0.90); }
+  .info span{
+    font-variant-numeric: tabular-nums;
+    overflow-wrap:anywhere;
+    word-break: break-word;
+    text-align:right;
+  }
+
+  .plothead{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    align-items:center;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .plothead .small{
+    color: var(--muted);
+    font-size: 12px;
+    min-width:0;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  canvas{
+    display:block;
+    width:100%;
+    height:520px;
+  }
+</style>
 </head>
 
 <body>
   <div class="wrap">
-    <div class="card">
+
+    <!-- LEFT: Inputs -->
+    <div class="card inputs">
       <h2>Inputs</h2>
+
       <div class="controls">
+
+        <div class="row">
+          <label for="distMode">Distribution</label>
+          <select id="distMode">
+            <option value="normal">Normal (analytic CDF)</option>
+            <option value="skew">Skew-normal (numeric CDF)</option>
+          </select>
+        </div>
+
         <div class="row">
           <label for="meanInput">Mean (μ)</label>
           <input id="meanInput" type="number" step="0.01" value="0">
@@ -176,123 +176,193 @@
         </div>
 
         <div class="row">
-          <label for="sdInput">Std dev (σ)</label>
-          <input id="sdInput" type="number" step="0.01" min="0.05" value="1">
+          <label for="sdInput">Std Dev (σ)</label>
+          <input id="sdInput" type="number" step="0.01" value="10">
         </div>
         <div class="sliderline">
-          <input id="sdSlider" type="range" min="0.05" max="25" step="0.01" value="1">
-          <div class="pill" id="sdPill">1.00</div>
+          <input id="sdSlider" type="range" min="0.10" max="25" step="0.01" value="10">
+          <div class="pill" id="sdPill">10.00</div>
         </div>
 
         <div class="row">
           <label for="skewInput">Skewness control (α)</label>
-          <input id="skewInput" type="number" step="0.01" value="0">
+          <input id="skewInput" type="number" step="0.01" value="-4">
         </div>
         <div class="sliderline">
-          <input id="skewSlider" type="range" min="-12" max="12" step="0.01" value="0">
-          <div class="pill" id="skewPill">0.00</div>
+          <input id="skewSlider" type="range" min="-12" max="12" step="0.01" value="-4">
+          <div class="pill" id="skewPill">-4.00</div>
         </div>
 
         <div class="row">
-          <label for="medianInput">Median (computed)</label>
-          <input id="medianInput" type="number" step="0.0001" value="0" disabled>
+          <label for="xQueryInput">Query x</label>
+          <input id="xQueryInput" type="number" step="0.01" value="0">
+        </div>
+        <div class="sliderline">
+          <input id="xQuerySlider" type="range" min="-100" max="100" step="0.01" value="0">
+          <div class="pill" id="xQueryPill">0.00</div>
         </div>
 
-        <div class="toggles">
-          <label class="toggle" title="Show the PDF curve">
-            <input id="showPdf" type="checkbox" checked>
-            <span>Show PDF</span>
-          </label>
-          <label class="toggle" title="Show vertical lines for mean & median">
-            <input id="showLines" type="checkbox" checked>
-            <span>Mean/Median lines</span>
-          </label>
-          <label class="toggle" title="Show ±1σ band (around the desired mean)">
-            <input id="showSigma" type="checkbox" checked>
-            <span>±1σ band</span>
-          </label>
-          <label class="toggle" title="Use skew-normal (α≠0). If unchecked, always use normal even if α is nonzero">
-            <input id="useSkewNormal" type="checkbox" checked>
-            <span>Use skew-normal</span>
-          </label>
+        <div class="row">
+          <label for="tailMode">p-value tail</label>
+          <select id="tailMode">
+            <option value="left">Left-tailed: p = P(X ≤ x)</option>
+            <option value="right">Right-tailed: p = P(X ≥ x)</option>
+            <option value="two">Two-tailed (symmetric about μ using |x−μ|)</option>
+          </select>
         </div>
 
-        <div class="info" id="infoBox">
-          <div><b>Model:</b> <span id="modelName">Normal</span></div>
-          <div><b>PDF peak (mode):</b> <span id="modeVal">–</span></div>
-          <div><b>Median:</b> <span id="medianVal">–</span></div>
-          <div><b>Area check:</b> <span id="areaVal">–</span> <span id="areaWarn" class="warn"></span></div>
-        </div>
+      </div>
+
+      <div class="toggles">
+        <label><input id="showPdf" type="checkbox" checked> Show PDF</label>
+        <label><input id="shadeTails" type="checkbox" checked> Shade p-value tail(s)</label>
+        <label><input id="showQueryLine" type="checkbox" checked> Show query line</label>
+      </div>
+
+      <div class="info" id="infoBox">
+        <div><b>Query x:</b> <span id="xQueryVal">–</span></div>
+        <div><b>z = (x−μ)/σ:</b> <span id="zVal">–</span></div>
+        <div><b>Tail mode:</b> <span id="tailModeVal">–</span></div>
+        <div><b>p-value:</b> <span id="pVal">–</span></div>
+        <div><b>Numeric median (plot window):</b> <span id="medianVal">–</span></div>
+        <div><b>Area over plot window:</b> <span id="areaVal">–</span></div>
       </div>
     </div>
 
+    <!-- RIGHT: Plot -->
     <div class="card plot">
       <div class="plothead">
-        <div>
-          <div style="font-size:16px; font-weight:600;">Distribution</div>
-          <div class="small">Normal when α = 0. Skew-normal when α ≠ 0 (if enabled).</div>
-        </div>
-        <div class="small" id="rangeLabel">x-range: –</div>
+        <div class="small">x-range fixed to [-100, 100]; μ ∈ [-50, 50], σ ≤ 25</div>
+        <div class="small" id="status">Ready</div>
       </div>
-      <canvas id="canvas"></canvas>
-      <div class="footnote">
-        Tip: edit the number fields for precise values, or drag sliders for quick changes. Median is computed numerically for skew-normal.
-      </div>
+      <canvas id="cv"></canvas>
     </div>
+
   </div>
 
 <script>
 (() => {
-  // ---------- Math helpers ----------
-  const SQRT2 = Math.SQRT2;
-  const SQRT2PI = Math.sqrt(2 * Math.PI);
+  // ---------- DOM ----------
+  const cv = document.getElementById('cv');
+  const ctx = cv.getContext('2d');
 
-  function clamp(x, lo, hi){ return Math.min(hi, Math.max(lo, x)); }
+  const distMode = document.getElementById('distMode');
 
-  // Abramowitz-Stegun erf approximation (good enough for visualization)
+  const meanInput = document.getElementById('meanInput');
+  const meanSlider = document.getElementById('meanSlider');
+  const meanPill = document.getElementById('meanPill');
+
+  const sdInput = document.getElementById('sdInput');
+  const sdSlider = document.getElementById('sdSlider');
+  const sdPill = document.getElementById('sdPill');
+
+  const skewInput = document.getElementById('skewInput');
+  const skewSlider = document.getElementById('skewSlider');
+  const skewPill = document.getElementById('skewPill');
+
+  const xQueryInput = document.getElementById('xQueryInput');
+  const xQuerySlider = document.getElementById('xQuerySlider');
+  const xQueryPill = document.getElementById('xQueryPill');
+
+  const tailMode = document.getElementById('tailMode');
+
+  const showPdf = document.getElementById('showPdf');
+  const shadeTails = document.getElementById('shadeTails');
+  const showQueryLine = document.getElementById('showQueryLine');
+
+  const xQueryVal = document.getElementById('xQueryVal');
+  const zVal = document.getElementById('zVal');
+  const tailModeVal = document.getElementById('tailModeVal');
+  const pVal = document.getElementById('pVal');
+  const medianVal = document.getElementById('medianVal');
+  const areaVal = document.getElementById('areaVal');
+  const status = document.getElementById('status');
+
+  // ---------- Helpers ----------
+  function clamp(x, lo, hi){ return Math.max(lo, Math.min(hi, x)); }
+  function safeNumber(val, fallback){
+    const x = Number(val);
+    return Number.isFinite(x) ? x : fallback;
+  }
+
+  // erf approximation (Abramowitz-Stegun)
   function erf(x){
     const sign = x < 0 ? -1 : 1;
     x = Math.abs(x);
     const a1=0.254829592, a2=-0.284496736, a3=1.421413741, a4=-1.453152027, a5=1.061405429;
     const p=0.3275911;
     const t = 1/(1+p*x);
-    const y = 1 - (((((a5*t + a4)*t) + a3)*t + a2)*t + a1)*t*Math.exp(-x*x);
+    const y = 1 - (((((a5*t+a4)*t+a3)*t+a2)*t+a1)*t)*Math.exp(-x*x);
     return sign*y;
   }
-
-  function normalPdf(z){
-    return Math.exp(-0.5*z*z) / SQRT2PI;
-  }
-  function normalCdf(z){
-    return 0.5 * (1 + erf(z / SQRT2));
-  }
-
-  // Skew-normal pdf: f(x)= 2/ω * φ(z) * Φ(α z), z=(x-ξ)/ω
-  function skewNormalPdf(x, xi, omega, alpha){
-    const z = (x - xi) / omega;
-    return (2/omega) * normalPdf(z) * normalCdf(alpha * z);
-  }
-
-  // For alpha=0, skew-normal reduces to normal with mean=xi, sd=omega.
+  function normalPdf(z){ return Math.exp(-0.5*z*z) / Math.sqrt(2*Math.PI); }
+  function normalCdf(z){ return 0.5 * (1 + erf(z / Math.SQRT2)); }
   function normalPdfParam(x, mu, sigma){
     const z = (x - mu) / sigma;
-    return (1/sigma) * normalPdf(z);
+    return normalPdf(z) / sigma;
+  }
+  function normalCdfParam(x, mu, sigma){
+    const z = (x - mu) / sigma;
+    return normalCdf(z);
   }
 
-  // Given desired mean μ and sd σ and skew shape α, compute skew-normal (ξ, ω)
-  // mean = ξ + ω * δ * sqrt(2/π)
-  // var  = ω^2 * (1 - 2δ^2/π)
-  // δ = α / sqrt(1+α^2)
+  // Standard normal CDF helper for skew-normal
+  function Phi(z){ return normalCdf(z); }
+
+  // Skew-normal pdf with location xi and scale omega:
+  // f(x) = (2/omega) * phi(t) * Phi(alpha * t), t=(x-xi)/omega
+  function skewNormalPdf(x, xi, omega, alpha){
+    const t = (x - xi) / omega;
+    return (2/omega) * normalPdf(t) * Phi(alpha * t);
+  }
+
+  // Convert desired mean & sd into xi, omega for skew-normal given alpha
+  // mean = xi + omega*delta*sqrt(2/pi)
+  // var = omega^2 * (1 - 2*delta^2/pi)
   function skewParamsFromMeanSd(mu, sd, alpha){
-    if (Math.abs(alpha) < 1e-12) return { xi: mu, omega: sd, alpha: 0 };
     const delta = alpha / Math.sqrt(1 + alpha*alpha);
-    const denom = Math.sqrt(Math.max(1e-12, 1 - (2*delta*delta)/Math.PI));
-    const omega = sd / denom;
-    const xi = mu - omega * delta * Math.sqrt(2/Math.PI);
-    return { xi, omega, alpha };
+    const c = Math.sqrt(2/Math.PI) * delta;
+    const denom = 1 - (2*delta*delta/Math.PI);
+    const omega = sd / Math.sqrt(Math.max(denom, 1e-12));
+    const xi = mu - omega * c;
+    return { xi, omega, delta };
   }
 
-  // Build a grid, compute pdf values, and approximate CDF via trapezoid rule
+  // Linear interpolation y(x) for monotone-ish arrays
+  function interp1(xs, ys, x){
+    if (x <= xs[0]) return ys[0];
+    const n = xs.length;
+    if (x >= xs[n-1]) return ys[n-1];
+    // binary search
+    let lo=0, hi=n-1;
+    while(hi-lo>1){
+      const mid = (lo+hi)>>1;
+      if (xs[mid] <= x) lo = mid;
+      else hi = mid;
+    }
+    const x0=xs[lo], x1=xs[hi];
+    const y0=ys[lo], y1=ys[hi];
+    const t = (x - x0) / (x1 - x0);
+    return y0 + t*(y1 - y0);
+  }
+
+  function invertMonotone(xs, ys, target){
+    // ys assumed nondecreasing; find x such that ys(x)=target (approx)
+    const n = xs.length;
+    if (target <= ys[0]) return xs[0];
+    if (target >= ys[n-1]) return xs[n-1];
+    let lo=0, hi=n-1;
+    while(hi-lo>1){
+      const mid = (lo+hi)>>1;
+      if (ys[mid] <= target) lo = mid;
+      else hi = mid;
+    }
+    const y0=ys[lo], y1=ys[hi];
+    const x0=xs[lo], x1=xs[hi];
+    const t = (target - y0) / (y1 - y0);
+    return x0 + t*(x1 - x0);
+  }
+
   function computeGrid(pdfFn, xMin, xMax, n=1200){
     const xs = new Array(n);
     const ys = new Array(n);
@@ -301,18 +371,19 @@
 
     for(let i=0;i<n;i++){
       const x = xMin + i*dx;
-      const y = pdfFn(x);
-      xs[i]=x; ys[i]=y;
+      const y = Math.max(0, pdfFn(x));
+      xs[i] = x;
+      ys[i] = y;
       if (y > yMax) yMax = y;
     }
 
-    // area via trapezoid
+    // area
     let area = 0;
     for(let i=0;i<n-1;i++){
       area += 0.5 * (ys[i] + ys[i+1]) * dx;
     }
 
-    // cumulative (unnormalized), then normalize to 1 using computed area (helps if range is truncated)
+    // cdf (normalized over [xMin,xMax])
     const cdf = new Array(n);
     let acc = 0;
     cdf[0] = 0;
@@ -329,295 +400,293 @@
       if (ys[i] > modeY){ modeY = ys[i]; modeX = xs[i]; }
     }
 
-    // median (solve cdf ~ 0.5)
+    // median within plot window
     const med = invertMonotone(xs, cdf, 0.5);
 
     return { xs, ys, cdf, dx, yMax, area, modeX, median: med };
   }
 
-  function invertMonotone(xs, ys, target){
-    // assumes ys is nondecreasing
-    const n = ys.length;
-    if (target <= ys[0]) return xs[0];
-    if (target >= ys[n-1]) return xs[n-1];
-    let lo = 0, hi = n-1;
-    while(hi - lo > 1){
-      const mid = (lo + hi) >> 1;
-      if (ys[mid] >= target) hi = mid;
-      else lo = mid;
+  function chooseIntegrationRange(mu, sd, alpha, x){
+    const K = 20 + 0.6 * Math.abs(alpha);
+    const span = K * sd;
+    let lo = Math.min(mu, x) - span;
+    let hi = Math.max(mu, x) + span;
+    lo = Math.max(lo, -2000);
+    hi = Math.min(hi,  2000);
+    if (hi - lo < 80){
+      const mid = 0.5*(hi+lo);
+      lo = mid - 40; hi = mid + 40;
     }
-    const y0 = ys[lo], y1 = ys[hi];
-    const x0 = xs[lo], x1 = xs[hi];
-    const t = (target - y0) / Math.max(1e-12, (y1 - y0));
-    return x0 + t*(x1 - x0);
+    return { lo, hi };
   }
 
-  // ---------- UI elements ----------
-  const canvas = document.getElementById('canvas');
-  const ctx = canvas.getContext('2d');
-
-  const meanInput = document.getElementById('meanInput');
-  const meanSlider = document.getElementById('meanSlider');
-  const sdInput = document.getElementById('sdInput');
-  const sdSlider = document.getElementById('sdSlider');
-  const skewInput = document.getElementById('skewInput');
-  const skewSlider = document.getElementById('skewSlider');
-
-  const medianInput = document.getElementById('medianInput');
-
-  const meanPill = document.getElementById('meanPill');
-  const sdPill = document.getElementById('sdPill');
-  const skewPill = document.getElementById('skewPill');
-
-  const showPdf = document.getElementById('showPdf');
-  const showLines = document.getElementById('showLines');
-  const showSigma = document.getElementById('showSigma');
-  const useSkewNormal = document.getElementById('useSkewNormal');
-
-  const modelName = document.getElementById('modelName');
-  const modeVal = document.getElementById('modeVal');
-  const medianVal = document.getElementById('medianVal');
-  const areaVal = document.getElementById('areaVal');
-  const areaWarn = document.getElementById('areaWarn');
-  const rangeLabel = document.getElementById('rangeLabel');
-
-  function fmt(x, d=4){
-    if (!isFinite(x)) return "–";
-    const p = Math.pow(10, d);
-    return (Math.round(x*p)/p).toFixed(d);
+  function cdfUnified(x, mu, sd, alpha, doSkew, pdfFn){
+    if (!doSkew){
+      return normalCdfParam(x, mu, sd); // analytic on (-∞,∞)
+    }
+    // numeric approx over wide window ~ (-∞,∞)
+    const { lo, hi } = chooseIntegrationRange(mu, sd, alpha, x);
+    const N = 12000;
+    const g = computeGrid(pdfFn, lo, hi, N);
+    return interp1(g.xs, g.cdf, x);
   }
 
-  function syncPills(){
-    meanPill.textContent = Number(meanInput.value).toFixed(2);
-    sdPill.textContent = Number(sdInput.value).toFixed(2);
-    skewPill.textContent = Number(skewInput.value).toFixed(2);
-  }
+  // ---------- UI sync ----------
+  function syncMean(){ meanPill.textContent = safeNumber(meanInput.value,0).toFixed(2); }
+  function syncSd(){ sdPill.textContent = safeNumber(sdInput.value,1).toFixed(2); }
+  function syncSkew(){ skewPill.textContent = safeNumber(skewInput.value,0).toFixed(2); }
+  function syncXQuery(){ xQueryPill.textContent = safeNumber(xQueryInput.value,0).toFixed(2); }
 
-  function syncFromInputs(){
-    meanSlider.value = meanInput.value;
-    sdSlider.value = sdInput.value;
-    skewSlider.value = skewInput.value;
-    syncPills();
-    draw();
-  }
   function syncFromSliders(){
     meanInput.value = meanSlider.value;
     sdInput.value = sdSlider.value;
     skewInput.value = skewSlider.value;
-    syncPills();
+    syncMean(); syncSd(); syncSkew();
     draw();
   }
-
-  meanInput.addEventListener('input', syncFromInputs);
-  sdInput.addEventListener('input', () => {
-    sdInput.value = clamp(Number(sdInput.value || 1), 0.05, 1000);
-    syncFromInputs();
-  });
-  skewInput.addEventListener('input', syncFromInputs);
+  function syncXFromSlider(){
+    xQueryInput.value = xQuerySlider.value;
+    syncXQuery();
+    draw();
+  }
+  function syncFromInputs(){
+    meanSlider.value = clamp(safeNumber(meanInput.value,0), -50, 50);
+    sdSlider.value = clamp(safeNumber(sdInput.value,10), 0.10, 25);
+    skewSlider.value = clamp(safeNumber(skewInput.value,0), -12, 12);
+    syncMean(); syncSd(); syncSkew();
+    draw();
+  }
+  function syncXFromInput(){
+    xQuerySlider.value = clamp(safeNumber(xQueryInput.value,0), -100, 100);
+    syncXQuery();
+    draw();
+  }
 
   meanSlider.addEventListener('input', syncFromSliders);
   sdSlider.addEventListener('input', syncFromSliders);
   skewSlider.addEventListener('input', syncFromSliders);
+  xQuerySlider.addEventListener('input', syncXFromSlider);
 
-  [showPdf, showLines, showSigma, useSkewNormal].forEach(el => el.addEventListener('change', draw));
+  meanInput.addEventListener('input', syncFromInputs);
+  sdInput.addEventListener('input', syncFromInputs);
+  skewInput.addEventListener('input', syncFromInputs);
+  xQueryInput.addEventListener('input', syncXFromInput);
 
-  // ---------- Drawing ----------
+  distMode.addEventListener('change', draw);
+  tailMode.addEventListener('change', draw);
+  showPdf.addEventListener('change', draw);
+  shadeTails.addEventListener('change', draw);
+  showQueryLine.addEventListener('change', draw);
+
   function resizeCanvas(){
     const dpr = window.devicePixelRatio || 1;
-    const rect = canvas.getBoundingClientRect();
-    canvas.width = Math.floor(rect.width * dpr);
-    canvas.height = Math.floor(rect.height * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const rect = cv.getBoundingClientRect();
+    const w = Math.max(300, Math.floor(rect.width));
+    const h = Math.max(360, Math.floor(rect.height));
+    cv.width  = Math.floor(w * dpr);
+    cv.height = Math.floor(h * dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
   }
-  window.addEventListener('resize', () => { resizeCanvas(); draw(); });
 
+  // ---------- Drawing ----------
   function draw(){
     resizeCanvas();
+    ctx.clearRect(0,0,cv.width,cv.height);
 
-    const W = canvas.getBoundingClientRect().width;
-    const H = canvas.getBoundingClientRect().height;
+    const xMin = -100, xMax = 100;
 
-    const muDesired = Number(meanInput.value);
-    const sdDesired = Math.max(0.05, Number(sdInput.value));
-    const alpha = Number(skewInput.value);
-    const doSkew = useSkewNormal.checked && Math.abs(alpha) > 1e-10;
+    // Read inputs
+    const muDesired = clamp(safeNumber(meanInput.value, 0), -50, 50);
+    const sdDesired = clamp(safeNumber(sdInput.value, 10), 0.10, 25);
+    const alpha = clamp(safeNumber(skewInput.value, -4), -12, 12);
+    meanInput.value = muDesired; meanSlider.value = muDesired;
+    sdInput.value = sdDesired; sdSlider.value = sdDesired;
+    skewInput.value = alpha; skewSlider.value = alpha;
+    syncMean(); syncSd(); syncSkew();
 
-    // fixed global x-range
-	const xMin = -100;
-	const xMax = 100;
-	rangeLabel.textContent = `x-range: −100 to +100`;
+    const doSkew = (distMode.value === "skew");
 
-
-    let pdfFn, label;
-
-    if (doSkew){
-      label = "Skew-normal";
+    // Define pdfFn
+    let pdfFn;
+    if (!doSkew){
+      pdfFn = (x) => normalPdfParam(x, muDesired, sdDesired);
+    } else {
       const { xi, omega } = skewParamsFromMeanSd(muDesired, sdDesired, alpha);
       pdfFn = (x) => skewNormalPdf(x, xi, omega, alpha);
-    } else {
-      label = "Normal";
-      pdfFn = (x) => normalPdfParam(x, muDesired, sdDesired);
     }
-    modelName.textContent = label;
 
-    const grid = computeGrid(pdfFn, xMin, xMax, 1400);
-    const { xs, ys, yMax, area, modeX, median } = grid;
+    // Grid for plotting (finite window)
+    const grid = computeGrid(pdfFn, xMin, xMax, 2400);
+    const xs = grid.xs, ys = grid.ys;
+    const yMax = grid.yMax;
 
-    // update info box
-    modeVal.textContent = `${fmt(modeX, 4)}`;
-    medianVal.textContent = `${fmt(median, 4)}`;
-    medianInput.value = (isFinite(median) ? median.toFixed(4) : "0.0000");
-    areaVal.textContent = `${fmt(area, 6)}`;
-    const areaErr = Math.abs(area - 1);
-    areaWarn.textContent = areaErr > 0.01 ? ` (range truncation: err≈${fmt(areaErr, 4)})` : "";
+    // Query x
+    let xq = clamp(safeNumber(xQueryInput.value, 0), xMin, xMax);
+    xQueryInput.value = xq;
+    xQuerySlider.value = xq;
+    syncXQuery();
 
-    // margins
-    const m = { l: 58, r: 18, t: 16, b: 42 };
+    // z-value (always defined vs mean/sd)
+    const z = (xq - muDesired) / sdDesired;
+
+    // Tail mode
+    const mode = tailMode.value;
+    tailModeVal.textContent =
+      mode === "left" ? "Left-tailed" :
+      mode === "right" ? "Right-tailed" : "Two-tailed (|x−μ|)";
+
+    // p-value over (-∞,+∞) (analytic for normal, numeric for skew)
+    const Fx = clamp(cdfUnified(xq, muDesired, sdDesired, alpha, doSkew, pdfFn), 0, 1);
+
+    let pValue = 0;
+    let xL = null, xR = null;
+
+    if (mode === "left"){
+      pValue = Fx;
+    } else if (mode === "right"){
+      pValue = 1 - Fx;
+    } else {
+      const d = Math.abs(xq - muDesired);
+      xL = muDesired - d;
+      xR = muDesired + d;
+
+      const FL = clamp(cdfUnified(xL, muDesired, sdDesired, alpha, doSkew, pdfFn), 0, 1);
+      const FR = clamp(cdfUnified(xR, muDesired, sdDesired, alpha, doSkew, pdfFn), 0, 1);
+      pValue = FL + (1 - FR);
+    }
+    pValue = clamp(pValue, 0, 1);
+
+    // Update readouts
+    xQueryVal.textContent = xq.toFixed(4);
+    zVal.textContent = Number.isFinite(z) ? z.toFixed(4) : "–";
+    pVal.textContent = Number.isFinite(pValue) ? pValue.toFixed(6) : "–";
+    medianVal.textContent = Number.isFinite(grid.median) ? grid.median.toFixed(4) : "–";
+    areaVal.textContent = Number.isFinite(grid.area) ? grid.area.toFixed(6) : "–";
+
+    status.textContent = doSkew ? "Skew-normal (numeric CDF)" : "Normal (analytic CDF)";
+
+    // Plot frame
+    const W = cv.getBoundingClientRect().width;
+    const H = cv.getBoundingClientRect().height;
+
+    const m = { l: 50, r: 18, t: 18, b: 42 };
     const plotW = W - m.l - m.r;
     const plotH = H - m.t - m.b;
 
-    // background
-    ctx.clearRect(0,0,W,H);
+    function xToPx(x){
+      return m.l + (x - xMin) * (plotW / (xMax - xMin));
+    }
+    function yToPx(y){
+      return m.t + plotH - (y / yMax) * plotH;
+    }
 
-    // grid
+    // Axes
+    ctx.strokeStyle = "rgba(255,255,255,0.18)";
     ctx.lineWidth = 1;
-    ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--grid').trim() || "rgba(255,255,255,0.08)";
-
-    // draw vertical gridlines (10)
-    for(let i=0;i<=10;i++){
-      const x = m.l + (i/10)*plotW;
-      ctx.beginPath();
-      ctx.moveTo(x, m.t);
-      ctx.lineTo(x, m.t+plotH);
-      ctx.stroke();
-    }
-    // horizontal gridlines (6)
-    for(let i=0;i<=6;i++){
-      const y = m.t + (i/6)*plotH;
-      ctx.beginPath();
-      ctx.moveTo(m.l, y);
-      ctx.lineTo(m.l+plotW, y);
-      ctx.stroke();
-    }
-
-    // axes
-    ctx.strokeStyle = "rgba(255,255,255,0.28)";
-    ctx.lineWidth = 1.2;
     ctx.beginPath();
-    ctx.moveTo(m.l, m.t+plotH);
-    ctx.lineTo(m.l+plotW, m.t+plotH);
+    ctx.moveTo(m.l, m.t + plotH);
+    ctx.lineTo(m.l + plotW, m.t + plotH);
     ctx.stroke();
 
-    ctx.beginPath();
-    ctx.moveTo(m.l, m.t);
-    ctx.lineTo(m.l, m.t+plotH);
-    ctx.stroke();
-
-    // scaling
-    const xToPx = (x) => m.l + ((x - xMin) / (xMax - xMin)) * plotW;
-    const yToPx = (y) => m.t + plotH - (y / (yMax*1.08 + 1e-12)) * plotH;
-
-    // sigma band (±1σ around desired mean)
-    if (showSigma.checked){
-      const x1 = xToPx(muDesired - sdDesired);
-      const x2 = xToPx(muDesired + sdDesired);
-      ctx.fillStyle = "rgba(122,162,255,0.12)";
-      ctx.fillRect(Math.min(x1,x2), m.t, Math.abs(x2-x1), plotH);
+    // x ticks
+    ctx.fillStyle = "rgba(231,238,255,0.75)";
+    ctx.font = "12px system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "top";
+    const ticks = [-100,-50,0,50,100];
+    for (const tx of ticks){
+      const px = xToPx(tx);
+      ctx.strokeStyle = "rgba(255,255,255,0.10)";
+      ctx.beginPath();
+      ctx.moveTo(px, m.t);
+      ctx.lineTo(px, m.t + plotH);
+      ctx.stroke();
+      ctx.fillText(String(tx), px, m.t + plotH + 8);
     }
 
-    // pdf curve
-    if (showPdf.checked){
-      ctx.lineWidth = 2.2;
-      ctx.strokeStyle = "rgba(125,255,178,0.95)";
+    // Tail shading (clipped to plot window)
+    function shadeInterval(a,b){
+      a = clamp(a, xMin, xMax);
+      b = clamp(b, xMin, xMax);
+      if (b <= a) return;
+
+      ctx.fillStyle = "rgba(255,255,255,0.08)";
       ctx.beginPath();
+      ctx.moveTo(xToPx(a), m.t + plotH);
       for(let i=0;i<xs.length;i++){
-        const px = xToPx(xs[i]);
-        const py = yToPx(ys[i]);
-        if (i===0) ctx.moveTo(px, py);
-        else ctx.lineTo(px, py);
+        const x = xs[i];
+        if (x < a) continue;
+        if (x > b) break;
+        ctx.lineTo(xToPx(x), yToPx(ys[i]));
+      }
+      ctx.lineTo(xToPx(b), m.t + plotH);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    if (shadeTails.checked && showPdf.checked){
+      if (mode === "left"){
+        shadeInterval(xMin, xq);
+      } else if (mode === "right"){
+        shadeInterval(xq, xMax);
+      } else {
+        const d = Math.abs(xq - muDesired);
+        const _xL = muDesired - d;
+        const _xR = muDesired + d;
+        shadeInterval(xMin, _xL);
+        shadeInterval(_xR, xMax);
+
+        // guide lines at xL/xR
+        const xLPx = xToPx(clamp(_xL, xMin, xMax));
+        const xRPx = xToPx(clamp(_xR, xMin, xMax));
+        ctx.strokeStyle = "rgba(255,204,102,0.85)";
+        ctx.lineWidth = 1.4;
+        ctx.setLineDash([5,4]);
+        ctx.beginPath(); ctx.moveTo(xLPx, m.t); ctx.lineTo(xLPx, m.t+plotH); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(xRPx, m.t); ctx.lineTo(xRPx, m.t+plotH); ctx.stroke();
+        ctx.setLineDash([]);
+      }
+    }
+
+    // PDF curve
+    if (showPdf.checked){
+      ctx.strokeStyle = "rgba(231,238,255,0.95)";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(xToPx(xs[0]), yToPx(ys[0]));
+      for(let i=1;i<xs.length;i++){
+        ctx.lineTo(xToPx(xs[i]), yToPx(ys[i]));
       }
       ctx.stroke();
     }
 
-    // mean & median lines
-    if (showLines.checked){
-      // mean line (desired mean)
-      const meanX = xToPx(muDesired);
-      ctx.strokeStyle = "rgba(122,162,255,0.95)";
+    // Query x marker
+    if (showQueryLine.checked){
+      const xqPx = xToPx(xq);
+      ctx.strokeStyle = "rgba(255,255,255,0.75)";
       ctx.lineWidth = 1.6;
+      ctx.setLineDash([4,4]);
       ctx.beginPath();
-      ctx.moveTo(meanX, m.t);
-      ctx.lineTo(meanX, m.t+plotH);
-      ctx.stroke();
-
-      // median line
-      const medX = xToPx(median);
-      ctx.strokeStyle = "rgba(255,204,102,0.95)";
-      ctx.setLineDash([6,4]);
-      ctx.lineWidth = 1.6;
-      ctx.beginPath();
-      ctx.moveTo(medX, m.t);
-      ctx.lineTo(medX, m.t+plotH);
+      ctx.moveTo(xqPx, m.t);
+      ctx.lineTo(xqPx, m.t + plotH);
       ctx.stroke();
       ctx.setLineDash([]);
-    }
 
-    // labels (x-axis ticks)
-    ctx.fillStyle = "rgba(231,238,252,0.88)";
-    ctx.font = "12px system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "top";
-    for(let i=0;i<=10;i++){
-      const x = xMin + (i/10)*(xMax-xMin);
-      const px = xToPx(x);
-      ctx.fillText(x.toFixed(1), px, m.t+plotH+8);
-    }
-
-    // y-axis ticks
-    ctx.textAlign = "right";
-    ctx.textBaseline = "middle";
-    for(let i=0;i<=6;i++){
-      const y = (i/6)*(yMax*1.08);
-      const py = yToPx(y);
-      ctx.fillText(y.toFixed(2), m.l-8, py);
-    }
-
-    // legend
-    ctx.textAlign = "left";
-    ctx.textBaseline = "top";
-    const lx = m.l + 8, ly = m.t + 8;
-    ctx.fillStyle = "rgba(231,238,252,0.9)";
-    ctx.fillText(`${label} PDF`, lx, ly);
-
-    // small legend lines
-    let yy = ly + 18;
-    if (showLines.checked){
-      ctx.strokeStyle = "rgba(122,162,255,0.95)";
-      ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.moveTo(lx, yy+6); ctx.lineTo(lx+22, yy+6); ctx.stroke();
-      ctx.fillStyle = "rgba(231,238,252,0.82)";
-      ctx.fillText(`Mean μ = ${muDesired.toFixed(3)}`, lx+28, yy);
-      yy += 18;
-
-      ctx.strokeStyle = "rgba(255,204,102,0.95)";
-      ctx.setLineDash([6,4]);
-      ctx.beginPath(); ctx.moveTo(lx, yy+6); ctx.lineTo(lx+22, yy+6); ctx.stroke();
-      ctx.setLineDash([]);
-      ctx.fillStyle = "rgba(231,238,252,0.82)";
-      ctx.fillText(`Median ≈ ${isFinite(median)? median.toFixed(3): "–"}`, lx+28, yy);
-      yy += 18;
-    }
-
-    if (showSigma.checked){
-      ctx.fillStyle = "rgba(122,162,255,0.18)";
-      ctx.fillRect(lx, yy+2, 22, 10);
-      ctx.fillStyle = "rgba(231,238,252,0.82)";
-      ctx.fillText(`±1σ band (σ = ${sdDesired.toFixed(3)})`, lx+28, yy);
+      if (showPdf.checked){
+        const fxq = pdfFn(xq);
+        const yqPx = yToPx(fxq);
+        ctx.fillStyle = "rgba(255,255,255,0.95)";
+        ctx.beginPath();
+        ctx.arc(xqPx, yqPx, 4.2, 0, Math.PI*2);
+        ctx.fill();
+      }
     }
   }
 
-  // init
-  syncPills();
+  window.addEventListener('resize', draw);
+
+  // initial sync + draw
+  syncMean(); syncSd(); syncSkew(); syncXQuery();
   draw();
 })();
 </script>
