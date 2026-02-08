@@ -146,6 +146,13 @@
     width:100%;
     height:520px;
   }
+   @media (max-width: 900px){
+  .wrap{
+    grid-template-columns: 1fr;   /* stack */
+  }
+  canvas{
+    height: 360px;               /* optional: smaller on phone */
+  }
 </style>
 </head>
 
@@ -237,15 +244,7 @@
       </div>
       <canvas id="cv"></canvas>
     </div>
-
-
-    @media (max-width: 900px){
-  .wrap{
-    grid-template-columns: 1fr;   /* stack */
-  }
-  canvas{
-    height: 360px;               /* optional: smaller on phone */
-  }
+    
 }
 
 
