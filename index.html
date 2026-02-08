@@ -238,8 +238,24 @@
       <canvas id="cv"></canvas>
     </div>
 
+
+    @media (max-width: 900px){
+  .wrap{
+    grid-template-columns: 1fr;   /* stack */
+  }
+  canvas{
+    height: 360px;               /* optional: smaller on phone */
+  }
+}
+
+
+    
   </div>
 
+
+
+
+  
 <script>
 (() => {
   // ---------- DOM ----------
